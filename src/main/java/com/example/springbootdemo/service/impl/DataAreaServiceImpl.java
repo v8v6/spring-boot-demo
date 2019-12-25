@@ -16,6 +16,7 @@ public class DataAreaServiceImpl implements DataAreaService {
 
 
   @Override
+  @DS("test2")
   public DataArea selectOne(Long id) {
     return dataAreaMapper.selectById(id);
   }

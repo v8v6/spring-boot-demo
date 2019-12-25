@@ -4,10 +4,10 @@ import com.baomidou.dynamic.datasource.DynamicDataSourceConfigure;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class DynamicConfiguration {
 
-  @Bean
+  //@Bean
   public DynamicDataSourceConfigure dynamicDataSourceConfigure() {
     return DynamicDataSourceConfigure.config()
         // 正则表达式
