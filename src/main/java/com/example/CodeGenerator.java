@@ -1,5 +1,6 @@
 package com.example;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -12,6 +13,7 @@ import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.TemplateConfig;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import java.util.ArrayList;
@@ -45,10 +47,20 @@ public class CodeGenerator {
     // 全局配置
     GlobalConfig gc = new GlobalConfig();
     String projectPath = System.getProperty("user.dir");
+    // 生成文件的输出目录
     gc.setOutputDir(projectPath + "/src/main/java");
-    gc.setAuthor("jobob");
+    gc.setAuthor("junxchen");
     gc.setOpen(false);
-    // gc.setSwagger2(true); 实体属性 Swagger2 注解
+    // 覆盖文件
+    //gc.setFileOverride(true);
+    // 实体属性 Swagger2 注解
+    // gc.setSwagger2(true);
+    gc.setIdType(IdType.AUTO);
+    // gc.setActiveRecord(true);
+    gc.setServiceName("%sService");
+    gc.setBaseColumnList(true);
+    gc.setBaseResultMap(true);
+    gc.setDateType(DateType.ONLY_DATE);
     mpg.setGlobalConfig(gc);
 
     // 数据源配置
@@ -75,9 +87,9 @@ public class CodeGenerator {
     };
 
     // 如果模板引擎是 freemarker
-    // String templatePath = "/templates/mapper.xml.ftl";
+    String templatePath = "/templates/mapper.xml.ftl";
     // 如果模板引擎是 velocity
-    String templatePath = "/templates/mapper.xml.vm";
+    // String templatePath = "/templates/mapper.xml.vm";
 
     // 自定义输出配置
     List<FileOutConfig> focList = new ArrayList<>();
@@ -122,11 +134,14 @@ public class CodeGenerator {
     strategy.setSuperEntityClass("com.baomidou.ant.common.BaseEntity");
     strategy.setEntityLombokModel(true);
     strategy.setRestControllerStyle(true);
+    strategy.setEntitySerialVersionUID(false);
+    //strategy.set
     // 公共父类
     strategy.setSuperControllerClass("com.baomidou.ant.common.BaseController");
     // 写于父类中的公共字段
     strategy.setSuperEntityColumns("id");
-    strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
+    //strategy.setTablePrefix("");// 表前缀
+    //strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
     strategy.setControllerMappingHyphenStyle(true);
     strategy.setTablePrefix(pc.getModuleName() + "_");
     mpg.setStrategy(strategy);
