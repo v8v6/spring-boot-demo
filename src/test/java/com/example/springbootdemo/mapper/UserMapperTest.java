@@ -1,5 +1,7 @@
 package com.example.springbootdemo.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springbootdemo.model.User;
 import java.util.List;
 import org.junit.Assert;
@@ -22,6 +24,14 @@ class UserMapperTest {
     List<User> userList = userMapper.selectList(null);
     Assert.assertEquals(5, userList.size());
     userList.forEach(System.out::println);
+  }
+
+  @Test
+  public void testSelectPage() {
+    System.out.println(("----- selectAll method test ------"));
+    Page<User> page = new Page(0,2);
+    IPage<User> selectPageVo = userMapper.selectPageVo(page);
+    System.out.println(selectPageVo);
   }
 
 }
