@@ -21,6 +21,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CodeGenerator {
+
+  public static final String author = "junxchen";
+  public static final String platName = "admin";
+  public static final String packageName = "cn.ersoft.fl." + platName;
+  public static final String baseEntity = packageName + ".base.entity.BaseEntity";
+  public static final String baseController =
+      packageName + ".base.controller.BaseController";
+  public static final String baseServiceName = packageName+".base.service.BaseService";
+  public static final String baseServiceImplName = packageName+".base.service.impl.BaseServiceImpl";
   /**
    * <p>
    * 读取控制台内容
@@ -131,16 +140,18 @@ public class CodeGenerator {
     StrategyConfig strategy = new StrategyConfig();
     strategy.setNaming(NamingStrategy.underline_to_camel);
     strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-    strategy.setSuperEntityClass("com.baomidou.ant.common.BaseEntity");
+    //strategy.setSuperEntityClass("com.baomidou.ant.common.BaseEntity");
     strategy.setEntityLombokModel(true);
     strategy.setRestControllerStyle(true);
     strategy.setEntitySerialVersionUID(false);
     //strategy.set
     // 公共父类
-    strategy.setSuperControllerClass("com.baomidou.ant.common.BaseController");
+    strategy.setSuperServiceClass(baseServiceName);
+    strategy.setSuperServiceImplClass(baseServiceImplName);
+    strategy.setSuperControllerClass(baseController);
     // 写于父类中的公共字段
     strategy.setSuperEntityColumns("id");
-    //strategy.setTablePrefix("");// 表前缀
+    strategy.setTablePrefix("a");// 表前缀
     //strategy.setInclude(scanner("表名，多个英文逗号分割").split(","));
     strategy.setControllerMappingHyphenStyle(true);
     strategy.setTablePrefix(pc.getModuleName() + "_");
