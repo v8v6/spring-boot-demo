@@ -1,4 +1,4 @@
-package com.example.springbootdemo.model;
+package com.example.springboot.demo.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -8,6 +8,8 @@ import lombok.Data;
 public class User {
   private Long id;
   private String name;
-  private Integer age;
   private String email;
+  private Integer sex;
+  private String phone;
+  private String password;
 }

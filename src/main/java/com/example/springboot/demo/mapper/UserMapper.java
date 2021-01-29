@@ -1,9 +1,9 @@
-package com.example.springbootdemo.mapper;
+package com.example.springboot.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.springbootdemo.model.User;
+import com.example.springboot.demo.model.User;
 
 public interface UserMapper extends BaseMapper<User> {
 

@@ -1,4 +1,4 @@
-package com.example.springbootdemo;
+package com.example.springboot.demo;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@MapperScan(basePackages = "com.example.springbootdemo.mapper")
+@MapperScan(basePackages = "com.example.springboot.demo.mapper")
 public class SpringBootDemoApplication {
 
 	public static void main(String[] args) {

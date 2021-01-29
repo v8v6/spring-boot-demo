@@ -1,7 +1,21 @@
-CREATE TABLE `t_user` (
+CREATE TABLE `t_user_0` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `age` tinyint(1) DEFAULT NULL,
-  `email` varchar(60) DEFAULT NULL,
+  `name` varchar(30) DEFAULT NULL COMMENT '名称',
+  `sex` tinyint(2) DEFAULT NULL COMMENT '性别 0-男，1-女',
+  `phone` varchar(15) DEFAULT NULL COMMENT '电话',
+  `email` varchar(30) DEFAULT NULL COMMENT '邮箱',
+  `password` varchar(20) DEFAULT NULL COMMENT '密码',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
+
+CREATE TABLE `t_user_1` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(30) DEFAULT NULL COMMENT '名称',
+  `sex` tinyint(2) DEFAULT NULL COMMENT '性别 0-男，1-女',
+  `phone` varchar(15) DEFAULT NULL COMMENT '电话',
+  `email` varchar(30) DEFAULT NULL COMMENT '邮箱',
+  `password` varchar(20) DEFAULT NULL COMMENT '密码',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB;

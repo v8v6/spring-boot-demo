@@ -1,11 +1,36 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/demo?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
-    username: root
-    password: root
-
-
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  shardingsphere:
+    datasource:
+      names: ds0,ds1
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/order_1?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
+        username: root
+        password: root
+      ds1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/order_2?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
+        username: root
+        password: root
+    sharding:
+      tables:
+        loudong:
+          actual-data-nodes: ds1.loudong
+        t_user:
+          actual-data-nodes: ds$->{0..1}.t_user_$->{0..1}
+          databaseStrategy:
+            inline:
+              shardingColumn: id
+              algorithmExpression: ds$->{id % 2}
+          table-strategy:
+            inline:
+              shardingColumn: id
+              algorithmExpression: t_user_$->{id % 2}
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+    props:
+      sql:
+        show: true
