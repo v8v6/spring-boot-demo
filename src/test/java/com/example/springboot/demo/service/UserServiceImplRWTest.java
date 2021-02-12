@@ -29,7 +29,7 @@ public class UserServiceImplRWTest {
     public void testSave() {
         System.out.println(("----- save method test ------"));
         User user = new User();
-        user.setId(0L);
+        user.setId(System.currentTimeMillis());
         user.setName("testSave");
         user.setEmail("testSave@qq.com");
         user.setSex(0);
@@ -41,18 +41,31 @@ public class UserServiceImplRWTest {
         System.out.println(save);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSelect() {
         System.out.println(("----- selectAll method test ------"));
         List<User> userList = userService.list(null);
         userList.forEach(System.out::println);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void testSelectPage() {
         System.out.println(("----- selectAll method test ------"));
         Page<User> page = new Page(0, 2);
         IPage<User> selectPageVo = userService.page(page);
         System.out.println(selectPageVo);
+        System.out.println(selectPageVo.getRecords());
+    }
+
+    @Test
+    public void testSelectOneS0() {
+        User user = userService.getById(0);
+        System.out.println(user);
+    }
+
+    @Test
+    public void testSelectOneS1() {
+        User user = userService.getById(1);
+        System.out.println(user);
     }
 }
