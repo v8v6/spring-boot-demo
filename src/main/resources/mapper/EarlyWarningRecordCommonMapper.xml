@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springboot.demo.mapper.EarlyWarningRecordCommonMapper">
+
+    <resultMap id="ret_EarlyWarningRecordListResDTO" type="com.example.springboot.demo.pojo.vo.EarlyWarningRecordListResDTO">
+        <result property="earlyWarningRecordId" column="id"/>
+        <result property="companyCode" column="company_code"/>
+        <result property="companyEbsCode" column="company_ebs_code"/>
+        <result property="lineCode" column="line_code"/>
+        <result property="batchCode" column="batch_code"/>
+        <result property="eventType" column="event_type"/>
+        <result property="shortContent" column="short_content"/>
+        <result property="content" column="content"/>
+        <result property="messageType" column="message_type"/>
+        <result property="relationId" column="relation_id"/>
+        <result property="consecutiveNum" column="consecutive_num"/>
+        <result property="deviationPercent" column="deviation_percent"/>
+        <result property="deviation" column="deviation"/>
+        <result property="dayAge" column="day_age"/>
+        <result property="pigNum" column="pig_num"/>
+        <result property="monitorTime" column="monitor_time"/>
+        <collection property="earlyWarningRecordPushs"
+                    ofType="com.example.springboot.demo.pojo.vo.EarlyWarningRecordPushListResDTO">
+            <result column="push_id" property="earlyWarningRecordPushId"/>
+            <result column="push_warning_record_id" property="earlyWarningRecordId"/>
+            <result column="push_user_id" property="userId"/>
+            <result column="push_user_name" property="userName"/>
+            <result column="push_feedback" property="feedback"/>
+            <result column="push_feedbackTime" property="feedbackTime"/>
+            <result column="push_explain" property="explain"/>
+            <result column="push_solution" property="solution"/>
+            <result column="push_reason" property="reason"/>
+            <result column="push_imageUrls" property="imageUrls"/>
+            <result column="push_phone" property="phone"/>
+            <result column="push_feishu_id" property="feishuId"/>
+            <result column="push_event_type" property="eventType"/>
+            <result column="push_company_code" property="companyCode"/>
+            <result column="push_line_code" property="lineCode"/>
+            <result column="push_batch_code" property="batchCode"/>
+            <result column="push_send_date" property="sendDate"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectPageContainPush"
+            resultType="com.example.springboot.demo.pojo.vo.EarlyWarningRecordListResDTO">
+        SELECT
+        record.id,
+        record.company_code,
+        record.company_ebs_code,
+        record.line_code,
+        record.batch_code,
+        record.event_type,
+        record.short_content,
+        record.content,
+        record.message_type,
+        record.send_time,
+        record.relation_id,
+        record.consecutive_num,
+        record.deviation_percent,
+        record.deviation,
+        record.day_age,
+        record.pig_num,
+        record.monitor_time,
+        push.id push_id,
+        push.warning_record_id push_warning_record_id,
+        push.user_id push_user_id,
+        push.user_name push_user_name,
+        push.phone push_phone,
+        push.feishu_id push_feishu_id,
+        push.event_type push_event_type,
+        push.company_code push_company_code,
+        push.line_code push_line_code,
+        push.batch_code push_batch_code,
+        push.send_date push_send_date,
+        push.feedback push_feedback,
+        push.feedback_time push_feedbackTime,
+        push.`explain` push_explain,
+        push.solution push_solution,
+        push.reason push_reason,
+        push.image_urls push_imageUrls
+        FROM early_warning_record_common record
+        left join early_warning_record_push push on record.id = push.warning_record_id
+        <where>
+            record.is_deleted = 0
+            and push.is_deleted = 0
+            <if test="dto.phone !=null and dto.phone != ''">
+                and push.phone = #{dto.phone}
+            </if>
+
+            <if test="dto.userId !=null and dto.userId != ''">
+                and push.user_id = #{dto.userId}
+            </if>
+
+            <if test="dto.sendDate !=null and dto.sendDate != '' ">
+                and push.send_date = #{dto.sendDate}
+            </if>
+
+            <if test="dto.monitorTime != null">
+                and record.monitor_time = #{dto.monitorTime}
+            </if>
+
+            <if test="dto.monitorTime != null">
+                and push.monitor_time = #{dto.monitorTime}
+            </if>
+
+            <if test="dto.eventType != null and dto.eventType != '' ">
+                and record.event_type = #{dto.eventType}
+            </if>
+
+            <if test="dto.feedback != null">
+                and record.feedback = #{dto.feedback}
+            </if>
+        </where>
+    </select>
+
+    <select id="query" resultType="com.example.springboot.demo.pojo.vo.EarlyWarningRecordListResDTO">
+        SELECT ewrc.`id` earlyWarningRecordId, ewrc.*
+        FROM early_warning_record_common ewrc
+        <where>
+
+            <if test="dto.monitorTime != null">
+                and ewrc.monitor_time = #{dto.monitorTime}
+            </if>
+
+            <if test="dto.startMonitorTime != null">
+                and ewrc.monitor_time >= #{dto.startMonitorTime}
+            </if>
+
+            <if test="dto.endMonitorTime != null">
+                and ewrc.monitor_time &lt;= #{dto.endMonitorTime}
+            </if>
+
+            <if test="dto.earlyWarningRecordIds != null and dto.earlyWarningRecordIds.size > 0">
+                and ewrc.id in
+                <foreach collection="dto.earlyWarningRecordIds" item="earlyWarningRecordId" separator="," open="(" close=")">
+                    #{earlyWarningRecordId}
+                </foreach>
+            </if>
+
+            <if test="dto.relationIds != null and dto.relationIds.size > 0">
+                and ewrc.relation_id in
+                <foreach collection="dto.relationIds" item="relationId" separator="," open="(" close=")">
+                    #{relationId}
+                </foreach>
+            </if>
+
+            <if test="dto.eventTypes != null and dto.eventTypes.size > 0">
+                and ewrc.event_type in
+                <foreach collection="dto.eventTypes" item="eventType" separator="," open="(" close=")">
+                    #{eventType}
+                </foreach>
+            </if>
+
+            and ewrc.is_deleted = 0
+        </where>
+    </select>
+
+
+</mapper>

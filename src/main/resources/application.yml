@@ -1,36 +1,44 @@
 spring:
   shardingsphere:
     datasource:
-      names: ds0,ds1
-      ds0:
+      names: ds_0
+      ds_0:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/order_1?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/msp_mrp?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=UTC&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true&allowMultiQueries=true
         username: root
         password: root
-      ds1:
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/order_2?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
-        username: root
-        password: root
-    sharding:
-      tables:
-        loudong:
-          actual-data-nodes: ds1.loudong
-        t_user:
-          actual-data-nodes: ds$->{0..1}.t_user_$->{0..1}
-          databaseStrategy:
-            inline:
-              shardingColumn: id
-              algorithmExpression: ds$->{id % 2}
-          table-strategy:
-            inline:
-              shardingColumn: id
-              algorithmExpression: t_user_$->{id % 2}
-          key-generator:
-            column: id
-            type: SNOWFLAKE
+
+
+    rules:
+      sharding:
+        tables:
+          early_warning_record_common:
+            actual-data-nodes: ds_0.early_warning_record_common_${2024..2999}_${['q1','q2','q3','q4']}
+
+            table-strategy:
+              standard:
+                sharding-column: monitor_time
+                sharding-algorithm-name: warning_monitor_time_table_algorithm
+          early_warning_record_push:
+            actual-data-nodes: ds_0.early_warning_record_push_${2024..2999}_${['q1','q2','q3','q4']}
+
+            table-strategy:
+              standard:
+                sharding-column: monitor_time
+                sharding-algorithm-name: warning_monitor_time_table_algorithm
+
+        sharding-algorithms:
+          warning_monitor_time_table_algorithm:
+            type: CLASS_BASED
+            props:
+              strategy: STANDARD
+              algorithmClassName: com.example.springboot.demo.shardingsphere.algorithm.EarlyWarningTableShardingAlgorithm
+
     props:
-      sql:
-        show: true
+      sql-show: true
+
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -1,0 +1,46 @@
+dataSources:
+  ds0:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://127.0.0.1:3306/msp_mrp?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=UTC&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true&allowMultiQueries=true
+    username: root
+    password: root
+
+
+rules:
+- !SINGLE
+  tables:
+    - "*.*"
+  defaultDataSource: ds0
+
+- !SHARDING
+  tables:
+    early_warning_record_common:
+      actualDataNodes: ds0.early_warning_record_common_${2024..2999}_${['Q1','Q2','Q3','Q4']}
+
+      tableStrategy:
+        standard:
+          shardingColumn: monitor_time
+          shardingAlgorithmName: warning_monitor_time_table_algorithm
+    early_warning_record_push:
+      actualDataNodes: ds0.early_warning_record_push_${2024..2999}_${['Q1','Q2','Q3','Q4']}
+
+      tableStrategy:
+        standard:
+          shardingColumn: monitor_time
+          shardingAlgorithmName: warning_monitor_time_table_algorithm
+
+  shardingAlgorithms:
+    warning_monitor_time_table_algorithm:
+      type: CLASS_BASED
+      props:
+        strategy: STANDARD
+        algorithmClassName: com.example.springboot.demo.shardingsphere.algorithm.EarlyWarningTableShardingAlgorithm
+
+
+props:
+  sql-show: true
+  check:
+    table:
+      metadata:
+        enabled: false
