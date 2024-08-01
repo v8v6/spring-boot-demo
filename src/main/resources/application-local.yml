@@ -1,0 +1,87 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:13104/demo?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
+    username: root
+    password: root
+
+  cloud:
+    sentinel:
+      transport:
+        # 默认为 8719
+        port: 9284
+        dashboard: 127.0.0.1:9281
+
+      datasource:
+        flow:
+          nacos:
+            server-addr: 127.0.0.1:8848
+            # nacos中存储规则的groupId
+            group-id: SENTINEL_GROUP
+            data-id: ${spring.application.name}-flow-rules
+            rule-type: flow
+#        degrade:
+#          nacos:
+#            server-addr: 127.0.0.1:8848
+#            namespace: supply-chain-group-local
+#            # nacos中存储规则的groupId
+#            group-id: ${spring.application.name}
+#            data-id: ${spring.application.name}-sentinel-degrade
+#            data-type: json
+#            rule-type: degrade
+#
+#        param_flow:
+#          nacos:
+#            server-addr: 127.0.0.1:8848
+#            namespace: supply-chain-group-local
+#            # nacos中存储规则的groupId
+#            group-id: ${spring.application.name}
+#            data-id: ${spring.application.name}-sentinel-param_flow
+#            data-type: json
+#            rule-type: param_flow
+#
+#        system:
+#          nacos:
+#            server-addr: 127.0.0.1:8848
+#            namespace: supply-chain-group-local
+#            # nacos中存储规则的groupId
+#            group-id: ${spring.application.name}
+#            data-id: ${spring.application.name}-sentinel-system
+#            data-type: json
+#            rule-type: system
+#
+#
+#        authority:
+#          nacos:
+#            server-addr: 127.0.0.1:8848
+#            namespace: supply-chain-group-local
+#            # nacos中存储规则的groupId
+#            group-id: ${spring.application.name}
+#            data-id: ${spring.application.name}-sentinel-authority
+#            data-type: json
+#            rule-type: authority
+#
+#
+#        gw_flow:
+#          nacos:
+#            server-addr: 127.0.0.1:8848
+#            namespace: supply-chain-group-local
+#            # nacos中存储规则的groupId
+#            group-id: ${spring.application.name}
+#            data-id: ${spring.application.name}-sentinel-gw_flow
+#            data-type: json
+#            rule-type: gw_flow
+#
+#
+#        gw_api_group:
+#          nacos:
+#            server-addr: 127.0.0.1:8848
+#            namespace: supply-chain-group-local
+#            # nacos中存储规则的groupId
+#            group-id: ${spring.application.name}
+#            data-id: ${spring.application.name}-sentinel-gw_api_group
+#            data-type: json
+#            rule-type: gw_api_group

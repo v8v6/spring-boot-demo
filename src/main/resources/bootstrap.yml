@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: dev_sentinel_demo
+  profiles:
+    active: local
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yml
+        namespace: supply-chain-group-local
+        group: dev_sentinel_demo
+      discovery:
+        namespace: supply-chain-group-local
+      server-addr: 127.0.0.1:8848
