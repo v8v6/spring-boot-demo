@@ -5,4 +5,8 @@
   <select id="selectPageVo" resultType="com.example.springbootdemo.model.User">
     SELECT * FROM user
 </select>
+
+  <select id="testListByLogicDelete" resultType="com.example.springbootdemo.model.User">
+    SELECT * FROM user where is_deleted = 0
+  </select>
 </mapper>
