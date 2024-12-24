@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springbootdemo.model.User;
 import java.util.List;
+
+import com.example.springbootdemo.service.UserDBService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +19,9 @@ class UserMapperTest {
 
   @Autowired
   private UserMapper userMapper;
+
+  @Autowired
+  private UserDBService userDBService;
 
   @Test
   public void testSelect() {
@@ -33,5 +38,20 @@ class UserMapperTest {
     IPage<User> selectPageVo = userMapper.selectPageVo(page);
     System.out.println(selectPageVo);
   }
+
+    @Test
+    public void testListByLogicDelete() {
+        System.out.println(("----- selectAll method test ------"));
+        List<User> list = userDBService.testListByLogicDelete();
+        System.out.println(list);
+    }
+
+    @Test
+    public void testLogicDelete() {
+        System.out.println(("----- selectAll method test ------"));
+
+        List<User> list = userDBService.list();
+        System.out.println(list);
+    }
 
 }
