@@ -4,7 +4,7 @@ spring:
       on-profile: local
 
   datasource:
-    url: jdbc:mysql://127.0.0.1:13104/demo?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&useSSL=false
     username: root
     password: root
 
@@ -13,16 +13,18 @@ spring:
       transport:
         # 默认为 8719
         port: 9284
-        dashboard: 127.0.0.1:9281
-
-      datasource:
-        flow:
-          nacos:
-            server-addr: 127.0.0.1:8848
-            # nacos中存储规则的groupId
-            group-id: SENTINEL_GROUP
-            data-id: ${spring.application.name}-flow-rules
-            rule-type: flow
+        dashboard: 127.0.0.1:8080
+      # 服务启动直接建立心跳连接
+      eager: true
+      # 动态push规则数据源
+#      datasource:
+#        flow:
+#          nacos:
+#            server-addr: 127.0.0.1:8848
+#            # nacos中存储规则的groupId
+#            group-id: SENTINEL_GROUP
+#            data-id: ${spring.application.name}-flow-rules
+#            rule-type: flow
 #        degrade:
 #          nacos:
 #            server-addr: 127.0.0.1:8848

@@ -9,4 +9,6 @@ public interface UserDBService extends IService<User> {
 
     List<User> testListByLogicDelete();
 
+    void test1();
+
 }
